@@ -2,6 +2,9 @@ import React, { useState} from 'react';
 import { Route } from 'react-router-dom';
 import data from './data';
 
+//custom hooks
+import { useProductContent } from './customHooks/useProductContent'
+
 // contexts
 import { ProductContext } from './contexts/ProductContext'
 import { CartContext } from './contexts/CartContext'
@@ -12,21 +15,9 @@ import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 
 function App() {
-	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
 
-	const addItem = item => {
-		// add the given item to the cart
-		// console.log(item.id)
-		// console.log(cart.some(existingItem => existingItem.id === item.id))
-		setCart([...cart, {...item, id:item.id+Date.now()}])
-	};
-
-	const removeItem = itemId => {
-		const cartIndex = cart.findIndex(item => item.id === itemId)
-		const newCart = cart.filter((item, idx) => idx != cartIndex)
-		setCart([...newCart])
-	}
+	// custom hook
+	const [products, cart, addItem, removeItem] = useProductContent(data)
 
 	return (
 		<ProductContext.Provider value={{ products, addItem, removeItem}}>
