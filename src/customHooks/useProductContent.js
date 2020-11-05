@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocalStorage } from './useLocalStorage'
 
 export const useProductContent = (data) => {
 
-    const [products] = useState(data);
-	const [cart, setCart] = useState([]);
+    const [products, setProducts] = useLocalStorage( "products" , data);
+    const [cart, setCart] = useLocalStorage("cart", []);
+    
+    useEffect(() => {
+        setProducts(data)
+    },[])
+
 
 	const addItem = item => {
 		// add the given item to the cart
